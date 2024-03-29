@@ -45,22 +45,21 @@ get_checksum() {
 PID="0xA042"
 FW="156"
 SER="AA11111AAAA"
-V=""
-I=""
-VPV=""
-PPV=""
-CS=""
-MPPT=""
+V="" # battery voltage (mV)
+I="" # battery current (mA)
+VPV="" # solar panel voltage (mV)
+PPV="" # solar panel power (W)
+CS="" # current state (of operation)
+MPPT="" # MPPT tracker state
 ERR="0"
 LOAD=""
-IL="0"
-H19="0"
-H20="0"
-H21="0"
-H22="0"
-H23="0"
-HSDS="0"
-Checksum="0"
+IL="0" # load current (mA)
+H19="0" # yield total (10 Wh)
+H20="0" # yield today (10 Wh)
+H21="0" # max power today (W)
+H22="0" # yield yesterday (10 Wh)
+H23="0" # maximum power yesterday (W)
+HSDS="0" # day sequence number (0..364)
 
 while true
 do
