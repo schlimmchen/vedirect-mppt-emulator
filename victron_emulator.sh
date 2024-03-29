@@ -73,7 +73,7 @@ while true; do
     V=$(shuf -i 11500-14500 -n1)
     I=$(shuf -i 100-8000 -n1)
     VPV=$(shuf -i 55500-70500 -n1)
-    PPV=$(shuf -i 5-300 -n1)
+    PPV=$((V * I * 104 / 100 / 1000000))
     CS=$(shuf -e 0 2 3 4 5 7 247 252 -n1)
     MPPT=$(shuf -i 0-2 -n1)
     LOAD=$(shuf -e OFF ON -n1)
