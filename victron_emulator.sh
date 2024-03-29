@@ -96,16 +96,17 @@ while true; do
     STRING=$STRING$MISSING
     CHECKSUM=$(get_checksum "$STRING")
     CHECKSUM=$(($CHECKSUM % 256))
-    if [[ $CHECKSUM -eq 0 ]]
-    then
-        if [[ $DEVICE ]]
-        then
-            echo -ne "$STRING" >$DEVICE
-        else
-            echo -ne "$STRING"
-        fi
-    else
+
+    if [ $CHECKSUM -ne 0 ]; then
         echo -ne "\nERROR IN CHECKSUM, SKIP FRAME\n"
+        continue
     fi
+
+    if [ -n "$DEVICE" ]; then
+        echo -ne "$STRING" >$DEVICE
+    else
+        echo -ne "$STRING"
+    fi
+
     sleep 1
 done
