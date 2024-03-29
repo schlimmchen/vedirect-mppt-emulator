@@ -54,11 +54,11 @@ MPPT="" # MPPT tracker state
 ERR="0"
 LOAD=""
 IL="0" # load current (mA)
-H19="0" # yield total (10 Wh)
-H20="0" # yield today (10 Wh)
-H21="0" # max power today (W)
-H22="0" # yield yesterday (10 Wh)
-H23="0" # maximum power yesterday (W)
+H19="1234" # yield total (10 Wh)
+H20="87" # yield today (10 Wh)
+H21="222" # max power today (W)
+H22="654" # yield yesterday (10 Wh)
+H23="111" # maximum power yesterday (W)
 HSDS="0" # day sequence number (0..364)
 
 while true
