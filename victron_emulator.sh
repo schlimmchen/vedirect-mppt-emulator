@@ -1,5 +1,11 @@
 #!/bin/bash
 
+SPLIT=0
+if [ "$1" == "--split" ]; then
+    SPLIT=1
+    shift 1
+fi
+
 DEVICE=""
 if [ -n "$1" ] && [ -e "$1" ]; then
     DEVICE="$1"
@@ -61,8 +67,9 @@ H22="654" # yield yesterday (10 Wh)
 H23="111" # maximum power yesterday (W)
 HSDS="0" # day sequence number (0..364)
 
-while true
-do
+counter=0
+while true; do
+    counter=$((counter + 1))
     V=$(shuf -i 11500-14500 -n1)
     I=$(shuf -i 100-8000 -n1)
     VPV=$(shuf -i 55500-70500 -n1)
@@ -71,7 +78,16 @@ do
     MPPT=$(shuf -i 0-2 -n1)
     LOAD=$(shuf -e OFF ON -n1)
     HSDS=$(date +%j)
-    STRING="\r\nPID\t$PID\r\nFW\t$FW\r\nSER#\t$SER\r\nV\t$V\r\nI\t$I\r\nVPV\t$VPV\r\nPPV\t$PPV\r\nCS\t$CS\r\nMPPT\t$MPPT\r\nERR\t$ERR\r\nLOAD\t$LOAD\r\nIL\t$IL\r\nH19\t$H19\r\nH20\t$H20\r\nH21\t$H21\r\nH22\t$H22\r\nH23\t$H23\r\nHSDS\t$HSDS\r\nChecksum\t"
+    STRING1="\r\nPID\t$PID\r\nFW\t$FW\r\nSER#\t$SER\r\nV\t$V\r\nI\t$I\r\nVPV\t$VPV\r\nPPV\t$PPV\r\nCS\t$CS\r\nMPPT\t$MPPT\r\nERR\t$ERR"
+    STRING2="\r\nLOAD\t$LOAD\r\nIL\t$IL\r\nH19\t$H19\r\nH20\t$H20\r\nH21\t$H21\r\nH22\t$H22\r\nH23\t$H23\r\nHSDS\t$HSDS"
+    if [ $SPLIT -eq 1 ]; then
+        if [ $((counter % 2)) -eq 0 ]; then
+            STRING2=""
+        else
+            STRING1=""
+        fi
+    fi
+    STRING="${STRING1}${STRING2}\r\nChecksum\t"
 
     CHECKSUM=$(get_checksum "$STRING")
     CHECKSUM=$(($CHECKSUM % 256))
