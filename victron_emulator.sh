@@ -1,8 +1,8 @@
 #!/bin/bash
 
-DEVICE="$1"
-if [[ $DEVICE ]]
-then
+DEVICE=""
+if [ -n "$1" ] && [ -e "$1" ]; then
+    DEVICE="$1"
     stty -F $DEVICE 19200 cs8 -cstopb -parenb raw
 fi
 
