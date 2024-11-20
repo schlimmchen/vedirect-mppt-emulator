@@ -49,7 +49,8 @@ get_checksum() {
 
 #PARAMETER SET FOR BlueSolar 75/15
 PID="0xA042"
-FW="156"
+FW="B156" # or "C123" for a release candidate "C"
+FWE="0208ff" # or "020803" for a beta version "03", also without leading zero
 SER="AA11111AAAA"
 V="" # battery voltage (mV)
 I="" # battery current (mA)
@@ -78,7 +79,13 @@ while true; do
     MPPT=$(shuf -i 0-2 -n1)
     LOAD=$(shuf -e OFF ON -n1)
     HSDS=$(date +%j)
-    STRING1="\r\nPID\t$PID\r\nFW\t$FW\r\nSER#\t$SER\r\nV\t$V\r\nI\t$I\r\nVPV\t$VPV\r\nPPV\t$PPV\r\nCS\t$CS\r\nMPPT\t$MPPT\r\nERR\t$ERR"
+    STRING1="\r\nPID\t$PID"
+    if [ -n "${FWE}" ]; then
+        STRING1="$STRING1\r\nFWE\t$FWE"
+    else
+        STRING1="$STRING1\r\nFW\t$FW"
+    fi
+    STRING1="$STRING1\r\nSER#\t$SER\r\nV\t$V\r\nI\t$I\r\nVPV\t$VPV\r\nPPV\t$PPV\r\nCS\t$CS\r\nMPPT\t$MPPT\r\nERR\t$ERR"
     STRING2="\r\nLOAD\t$LOAD\r\nIL\t$IL\r\nH19\t$H19\r\nH20\t$H20\r\nH21\t$H21\r\nH22\t$H22\r\nH23\t$H23\r\nHSDS\t$HSDS"
     if [ $SPLIT -eq 1 ]; then
         if [ $((counter % 2)) -eq 0 ]; then
