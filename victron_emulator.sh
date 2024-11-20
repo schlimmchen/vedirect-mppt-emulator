@@ -60,6 +60,8 @@ CS="" # current state (of operation)
 MPPT="" # MPPT tracker state
 ERR="0"
 LOAD=""
+IL=""
+RELAY=""
 IL="0" # load current (mA)
 H19="1234" # yield total (10 Wh)
 H20="87" # yield today (10 Wh)
@@ -78,8 +80,10 @@ while true; do
     CS=$(shuf -e 0 2 3 4 5 7 247 252 -n1)
     MPPT=$(shuf -i 0-2 -n1)
     LOAD=$(shuf -e OFF ON -n1)
+    IL=$(shuf -i 1000-8000 -n1)
+    RELAY=$(shuf -e OFF ON -n1)
     HSDS=$(date +%j)
-    STRING1="\r\nPID\t$PID"
+    STRING1="\r\nPID\t$PID\r\nRELAY\t$RELAY\r\nIL\t$IL"
     if [ -n "${FWE}" ]; then
         STRING1="$STRING1\r\nFWE\t$FWE"
     else
